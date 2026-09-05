@@ -1,0 +1,25 @@
+﻿@model List<Category>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Categories</h1>
+
+<table>
+    <tr>
+        <th>Category Name</th>
+        <th>Description</th>
+		<th>Actions</th>
+    </tr>
+    @foreach (var category in Model)
+    {
+        <tr>
+            <td>@category.Name</td>
+            <td>@category.Description</td>
+            <td>
+                <a href="@Url.Action("Edit", "Category", new { id = category.Id })">Edit</a> |
+                <a href="@Url.Action("Delete", "Category", new { id = category.Id })">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
