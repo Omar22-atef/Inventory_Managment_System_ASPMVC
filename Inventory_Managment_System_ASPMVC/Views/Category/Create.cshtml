@@ -1,0 +1,19 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create A New Category</h1>
+
+<form action="/Category/Create" method="post">
+    <div class="form-group">
+        <label class="Name" id="Name">Name:</label>
+        <input class="form-control" type="text" name="Name" />
+    </div>
+    <div class="form-group">
+        <label class="Description" id="Description">Description:</label>
+        <input class="form-control" type="text" name="Description" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
