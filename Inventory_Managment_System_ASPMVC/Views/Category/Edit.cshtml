@@ -1,0 +1,19 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<form action="/Category/Edit" method="post">
+    <input type="hidden" name="Id" value="@Model.Id"/>
+    <div class="form-group">
+        <label class="Name" id="Name">Name:</label>
+        <input class="form-control" type="text" name="Name" value="@Model?.Name"/>
+    </div>
+    <div class="form-group">
+        <label class="Description" id="Description">Description:</label>
+        <input class="form-control" type="text" name="Description" value="@Model?.Description"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

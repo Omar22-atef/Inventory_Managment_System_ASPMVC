@@ -8,8 +8,12 @@ namespace Inventory_Managment_System_ASPMVC.Models
             : base(options)
         { }
         public DbSet<Category> Categories { get; set; }
-        
 
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Category>()
+                .HasQueryFilter(c => !c.IsDeleted);
+        }
     }
 }

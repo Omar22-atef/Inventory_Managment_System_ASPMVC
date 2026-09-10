@@ -13,5 +13,6 @@ namespace Inventory_Managment_System_ASPMVC.Models
         public string Name { get; set; }
         [StringLength(500)]
         public string ?Description { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
