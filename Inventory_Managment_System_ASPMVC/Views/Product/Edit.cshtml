@@ -1,0 +1,78 @@
+﻿@model ProductCreateViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<style>
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    div {
+        margin-bottom: 15px;
+    }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    input[type="text"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+    button {
+        padding: 10px 20px;
+        margin-right: 10px;
+	}
+</style>
+
+<form action="/Product/Edit/@Model.Id" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <label asp-for="Name"></label>
+        <input type="text" asp-for="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="SKU"></label>
+        <input type="text" asp-for="SKU" />
+        <span asp-validation-for="SKU" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="PurchasePrice"></label>
+        <input type="text" asp-for="PurchasePrice" />
+        <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="SellingPrice"></label>
+        <input type="text" asp-for="SellingPrice" />
+        <span asp-validation-for="SellingPrice" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="CurrentStock"></label>
+        <input type="text" asp-for="CurrentStock" />
+        <span asp-validation-for="CurrentStock" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="MinimumStock"></label>
+        <input type="text" asp-for="MinimumStock" />
+        <span asp-validation-for="MinimumStock" class="text-danger"></span> 
+    </div>
+    <div>
+        <label asp-for="CategoryId"></label>
+        <select asp-for="CategoryId" asp-items="Model.Categories"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <button type="submit">Save</button>
+    <button type="button" onclick="window.location.href='@Url.Action("Index", "Product")'">Cancel</button>
+</form>

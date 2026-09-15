@@ -1,0 +1,73 @@
+﻿@model ProductCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<h2>Create A New Product</h2>
+
+<form asp-controller="Product" asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SKU" class="form-label"></label>
+        <input asp-for="SKU" class="form-control" />
+        <span asp-validation-for="SKU" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PurchasePrice" class="form-label"></label>
+        <input asp-for="PurchasePrice" class="form-control" />
+        <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SellingPrice" class="form-label"></label>
+        <input asp-for="SellingPrice" class="form-control" />
+        <span asp-validation-for="SellingPrice" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CurrentStock" class="form-label"></label>
+        <input asp-for="CurrentStock" class="form-control" />
+        <span asp-validation-for="CurrentStock" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MinimumStock" class="form-label"></label>
+        <input asp-for="MinimumStock" class="form-control" />
+        <span asp-validation-for="MinimumStock" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label"></label>
+
+        <select asp-for="CategoryId"
+                asp-items="Model.Categories"
+                class="form-select">
+            <option value="">-- Select Category --</option>
+        </select>
+
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Product</button>
+
+    <a asp-action="Index" class="btn btn-secondary">Back to Products</a>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
