@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Inventory_Managment_System_ASPMVC.Models.InventoryTransaction>
+
+@{
+    ViewData["Title"] = "Transactions By Date";
+}
+
+<div class="container mt-4">
+
+    <h1>Transactions By Date</h1>
+
+    <form asp-action="GetByDate" method="get" class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <label for="from" class="form-label">From Date</label>
+            <input type="date"
+                   id="from"
+                   name="from"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="col-md-4">
+            <label for="to" class="form-label">To Date</label>
+            <input type="date"
+                   id="to"
+                   name="to"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+        </div>
+
+    </form>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            No transactions found for this date range.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover">
+
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var transaction in Model)
+                {
+                    <tr>
+                        <td>@transaction.Id</td>
+
+                        <td>
+                            @transaction.Product.Name
+                        </td>
+
+                        <td>
+                            @transaction.Quantity
+                        </td>
+
+                        <td>
+                            @transaction.Type
+                        </td>
+
+                        <td>
+                            @transaction.Date.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+
+                        <td>
+                            <a asp-action="GetById"
+                               asp-route-id="@transaction.Id"
+                               class="btn btn-sm btn-info">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Back to All Transactions
+    </a>
+
+</div>

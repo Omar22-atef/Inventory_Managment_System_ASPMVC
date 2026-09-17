@@ -1,0 +1,67 @@
+﻿@model InventoryTransactionCreateViewModel
+
+@{
+    ViewData["Title"] = "CreateTransaction";
+}
+
+<div class="container mt-4">
+
+    <h1>Create Transaction</h1>
+
+    <form asp-action="Create" method="post">
+
+        <div class="mb-3">
+            <label asp-for="ProductId" class="form-label">Product</label>
+
+            <select asp-for="ProductId"
+                    asp-items="Model.Products"
+                    class="form-select">
+                <option value="">-- Select Product --</option>
+            </select>
+
+            <span asp-validation-for="ProductId"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Quantity" class="form-label">Quantity</label>
+
+            <input asp-for="Quantity"
+                   type="number"
+                   class="form-control"
+                   min="1" />
+
+            <span asp-validation-for="Quantity"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Type" class="form-label">Transaction Type</label>
+
+            <select asp-for="Type"
+                    asp-items="Html.GetEnumSelectList<InventoryTransactionType>()"
+                    class="form-select">
+                <option value="">-- Select Type --</option>
+            </select>
+
+            <span asp-validation-for="Type"
+                  class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Create Transaction
+        </button>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

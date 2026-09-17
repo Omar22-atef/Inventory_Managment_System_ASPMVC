@@ -1,0 +1,60 @@
+﻿@model InventoryTransaction
+
+@{
+    ViewData["Title"] = "Transaction Details";
+}
+
+<div class="container mt-4">
+
+    <h1>Transaction Details</h1>
+
+    <div class="card mt-4">
+        <div class="card-body">
+
+            <dl class="row">
+
+                <dt class="col-sm-3">
+                    Transaction ID
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Id
+                </dd>
+
+                <dt class="col-sm-3">
+                    Product
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Product.Name
+                </dd>
+
+                <dt class="col-sm-3">
+                    Quantity
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Quantity
+                </dd>
+
+                <dt class="col-sm-3">
+                    Transaction Type
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Type
+                </dd>
+
+                <dt class="col-sm-3">
+                    Date
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Date.ToString("dd/MM/yyyy HH:mm")
+                </dd>
+
+            </dl>
+
+            <a asp-action="Index" class="btn btn-secondary">
+                Back to Transactions
+            </a>
+
+        </div>
+    </div>
+
+</div>
