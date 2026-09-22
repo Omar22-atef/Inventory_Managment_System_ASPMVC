@@ -8,11 +8,13 @@ namespace Inventory_Managment_System_ASPMVC.Services
     {
         private readonly IInventoryTransactionRepository _inventoryTransactionRepository;
         private readonly IProductRepository _productRepository;
+        private readonly ISupplierRepository _supplierRepository;
 
-        public InventoryTransactionService(IInventoryTransactionRepository inventoryTransactionRepository, IProductRepository productRepository)
+        public InventoryTransactionService(IInventoryTransactionRepository inventoryTransactionRepository, IProductRepository productRepository, ISupplierRepository supplierRepository)
         {
             _inventoryTransactionRepository = inventoryTransactionRepository;
             _productRepository = productRepository;
+            _supplierRepository = supplierRepository;
         }
 
         public bool CreateTransaction(InventoryTransaction transaction)
@@ -24,6 +26,24 @@ namespace Inventory_Managment_System_ASPMVC.Services
 
             if (transaction.Quantity <= 0)
                 return false;
+
+            if (transaction.Type == InventoryTransactionType.Purchase)
+            {
+                if (transaction.SupplierId == null)
+                    return false;
+
+                var supplier = _supplierRepository.GetById(transaction.SupplierId.Value);
+
+                if (supplier == null)
+                    return false;
+
+                if (!_supplierRepository.SuppliesProduct(
+                        transaction.SupplierId.Value,
+                        transaction.ProductId))
+                {
+                    return false;
+                }
+            }
 
             if (transaction.Type == InventoryTransactionType.Purchase ||
                 transaction.Type == InventoryTransactionType.Return ||

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Supplier>
+@{
+    ViewData["Title"] = "GetSuppliersWithProducts";
+}
+
+<h1>GetSuppliersWithProducts</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Products</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var supplier in Model)
+        {
+            <tr>
+                <td>@supplier.Name</td>
+                <td>@supplier.Address</td>
+                <td>@supplier.City</td>
+                <td>
+                    <ul>
+                        @foreach (var product in supplier.ProductSuppliers)
+                        {
+                            <li>@product.Product.Name</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

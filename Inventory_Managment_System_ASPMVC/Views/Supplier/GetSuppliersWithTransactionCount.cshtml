@@ -1,0 +1,26 @@
+﻿@model IEnumerable<SupplierTransactionCountDto>
+@{
+    ViewData["Title"] = "GetSuppliersWithTransactionCount";
+}
+
+<h1>GetSuppliersWithTransactionCount</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Supplier Name</th>
+            <th>Transaction Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SupplierName</td>
+                <td>@item.TransactionCount</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

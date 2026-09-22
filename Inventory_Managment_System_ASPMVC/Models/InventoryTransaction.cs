@@ -17,5 +17,8 @@ namespace Inventory_Managment_System_ASPMVC.Models
         [ForeignKey("Product")]
         public int ProductId { get; set; }
         public Product Product { get; set; }
+        [ForeignKey("Supplier")]
+        public int ?SupplierId { get; set; }
+        public Supplier ?Supplier { get; set; }
     }
 }
