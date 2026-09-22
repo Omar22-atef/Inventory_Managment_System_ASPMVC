@@ -10,5 +10,6 @@ namespace Inventory_Managment_System_ASPMVC.Services
         public Product? GetById(int id);
         public bool UpdatedProduct(Product updatedProduct);
         public bool DeleteProduct(int id);
+
     }
 }

@@ -11,10 +11,12 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
     {
         private readonly IInventoryTransactionService _inventoryTransactionService;
         private readonly IProductService _productService;
-        public InventoryTransactionController(IInventoryTransactionService inventoryTransactionService, IProductService productService)
-        { 
+        private readonly ISupplierService _supplierService;
+        public InventoryTransactionController(IInventoryTransactionService inventoryTransactionService, IProductService productService, ISupplierService supplierService)
+        {
             _inventoryTransactionService = inventoryTransactionService;
             _productService = productService;
+            _supplierService = supplierService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -27,6 +29,7 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         public IActionResult Create()
         { 
             var products = _productService.GetAllProducts();
+            var suppliers = _supplierService.GetAll();
 
             var transaction = new InventoryTransactionCreateViewModel
             {
@@ -34,6 +37,11 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
                 {
                     Value = p.Id.ToString(),
                     Text = p.Name
+                }),
+                Suppliers = suppliers.Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
                 })
             };
 
@@ -43,7 +51,6 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         [HttpPost]
         public IActionResult Create(InventoryTransactionCreateViewModel newTransaction)
         {
-            
             if (ModelState.IsValid)
             {
                 InventoryTransaction transaction = new InventoryTransaction()
@@ -51,28 +58,38 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
                     ProductId = newTransaction.ProductId,
                     Quantity = newTransaction.Quantity,
                     Type = newTransaction.Type,
+                    SupplierId = newTransaction.SupplierId,
                 };
 
                 bool success = _inventoryTransactionService.CreateTransaction(transaction);
+
                 if (success)
-                { 
+                {
                     return RedirectToAction("Index");
                 }
-                ModelState.AddModelError("", "Unable to create transaction. Please check the stock quantity.");
 
+                ModelState.AddModelError(
+                    "",
+                    "Unable to create transaction. Please check the stock quantity."
+                );
             }
+
             var products = _productService.GetAllProducts();
+            var suppliers = _supplierService.GetAll();
 
-            var transactions = new InventoryTransactionCreateViewModel
+            newTransaction.Products = products.Select(p => new SelectListItem
             {
-                Products = products.Select(p => new SelectListItem
-                {
-                    Value = p.Id.ToString(),
-                    Text = p.Name
-                })
-            };
+                Value = p.Id.ToString(),
+                Text = p.Name
+            });
 
-            return View("Create", transactions);
+            newTransaction.Suppliers = suppliers.Select(s => new SelectListItem
+            {
+                Value = s.Id.ToString(),
+                Text = s.Name
+            });
+
+            return View("Create", newTransaction);
         }
 
         [HttpGet]

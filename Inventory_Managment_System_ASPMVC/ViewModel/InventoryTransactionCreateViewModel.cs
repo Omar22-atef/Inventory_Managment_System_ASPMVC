@@ -8,10 +8,12 @@ namespace Inventory_Managment_System_ASPMVC.ViewModel
     public class InventoryTransactionCreateViewModel
     {
         public int ProductId { get; set; }
+        public int? SupplierId { get; set; }
         [Required]
         [Range(0, int.MaxValue)]
         public int Quantity { get; set; }
         public IEnumerable<SelectListItem>? Products{ get; set; }
+        public IEnumerable<SelectListItem>? Suppliers { get; set; }
         public InventoryTransactionType Type { get; set; }
 
     }

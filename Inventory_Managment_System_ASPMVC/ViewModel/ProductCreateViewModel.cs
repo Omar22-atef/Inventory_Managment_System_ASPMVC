@@ -20,12 +20,11 @@ namespace Inventory_Managment_System_ASPMVC.ViewModel
         [Required]
         [Range(0, double.MaxValue)]
         public decimal SellingPrice { get; set; }
-        [Required]
-        [Range(0, int.MaxValue)]
-        public int CurrentStock { get; set; } = 0;
         [Range(0, int.MaxValue)]
         public int MinimumStock { get; set; }
         public int CategoryId { get; set; }
         public IEnumerable<SelectListItem>? Categories { get; set; }
+        public IEnumerable<SelectListItem>? Suppliers { get; set; }
+        public List<int> SupplierIds { get; set; }
     }
 }

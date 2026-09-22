@@ -49,8 +49,9 @@ namespace Inventory_Managment_System_ASPMVC.Services
         }
 
         public bool UpdatedProduct(Product updatedProduct)
-        { 
+        {
             updatedProduct.SKU = Normalize(updatedProduct.SKU);
+
             var existingProduct = GetById(updatedProduct.Id);
 
             var category = _categoryRepository.GetById(updatedProduct.CategoryId);
@@ -59,24 +60,29 @@ namespace Inventory_Managment_System_ASPMVC.Services
                 return false;
 
             if (category == null)
-            {
                 return false;
-            }
 
             if (_productRepository.ExistsBySKUId(updatedProduct.SKU, updatedProduct.Id))
-            {
                 return false;
-            }
 
             existingProduct.Name = updatedProduct.Name;
             existingProduct.Description = updatedProduct.Description;
             existingProduct.PurchasePrice = updatedProduct.PurchasePrice;
             existingProduct.SellingPrice = updatedProduct.SellingPrice;
-            existingProduct.CurrentStock = updatedProduct.CurrentStock;
             existingProduct.MinimumStock = updatedProduct.MinimumStock;
             existingProduct.CategoryId = updatedProduct.CategoryId;
             existingProduct.SKU = updatedProduct.SKU;
+
+            _productRepository.RemoveProductSuppliers(existingProduct);
+
+            foreach (var productSupplier in updatedProduct.ProductSuppliers)
+            {
+                productSupplier.ProductId = existingProduct.Id;
+                _productRepository.AddProductSupplier(productSupplier);
+            }
+
             _productRepository.Save();
+
             return true;
         }
 

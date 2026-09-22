@@ -10,10 +10,12 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
-        public ProductController(IProductService productService, ICategoryService categoryService)
+        private readonly ISupplierService _supplierService;
+        public ProductController(IProductService productService, ICategoryService categoryService, ISupplierService supplierService)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _supplierService = supplierService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -48,6 +50,7 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         public IActionResult Create()
         {
             var categories = _categoryService.GetAllCategories();
+            var suppliers = _supplierService.GetAll();
 
             var product = new ProductCreateViewModel
             {
@@ -55,6 +58,11 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
                 {
                     Value = c.Id.ToString(),
                     Text = c.Name
+                }),
+                Suppliers = suppliers.Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
                 })
             };
 
@@ -72,9 +80,12 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
                     SKU = newProduct.SKU,
                     PurchasePrice = newProduct.PurchasePrice,
                     SellingPrice = newProduct.SellingPrice,
-                    CurrentStock = newProduct.CurrentStock,
                     MinimumStock = newProduct.MinimumStock,
-                    CategoryId = newProduct.CategoryId
+                    CategoryId = newProduct.CategoryId,
+                    ProductSuppliers = newProduct.SupplierIds?.Select(supplierId => new ProductSuppliers
+                    {
+                        SupplierId = supplierId
+                    }).ToList() ?? new List<ProductSuppliers>()
                 };
 
                 bool success = _productService.CreateProduct(product);
@@ -88,11 +99,18 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
             }
 
             var categories = _categoryService.GetAllCategories();
+            var suppliers = _supplierService.GetAll();
 
             newProduct.Categories = categories.Select(c => new SelectListItem
             {
                 Value = c.Id.ToString(),
                 Text = c.Name
+            });
+
+            newProduct.Suppliers = suppliers.Select(s => new SelectListItem
+            {
+                Value = s.Id.ToString(),
+                Text = s.Name
             });
 
             return View("Create", newProduct);
@@ -107,6 +125,7 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
                 return NotFound();
             }
             var categories = _categoryService.GetAllCategories();
+            var suppliers = _supplierService.GetAll();
             var productViewModel = new ProductCreateViewModel
             {
                 Categories = categories.Select(c => new SelectListItem
@@ -114,15 +133,25 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
                     Value = c.Id.ToString(),
                     Text = c.Name
                 }),
+
+                Suppliers = suppliers.Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
+                }),
+
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
                 SKU = product.SKU,
                 PurchasePrice = product.PurchasePrice,
                 SellingPrice = product.SellingPrice,
-                CurrentStock = product.CurrentStock,
                 MinimumStock = product.MinimumStock,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+
+                SupplierIds = product.ProductSuppliers
+                .Select(ps => ps.SupplierId)
+                .ToList()
             };
             return View("Edit", productViewModel);
         }
@@ -140,9 +169,10 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
                     SKU = updatedProduct.SKU,
                     PurchasePrice = updatedProduct.PurchasePrice,
                     SellingPrice = updatedProduct.SellingPrice,
-                    CurrentStock = updatedProduct.CurrentStock,
                     MinimumStock = updatedProduct.MinimumStock,
-                    CategoryId = updatedProduct.CategoryId
+                    CategoryId = updatedProduct.CategoryId,
+                    ProductSuppliers = updatedProduct.SupplierIds
+                   .Select(supplierId => new ProductSuppliers {SupplierId = supplierId}).ToList()
                 };
                 bool success = _productService.UpdatedProduct(product);
                 if (success)
@@ -156,10 +186,17 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
             }
 
             var categories = _categoryService.GetAllCategories();
+            var suppliers = _supplierService.GetAll();
             updatedProduct.Categories = categories.Select(c => new SelectListItem
             {
                 Value = c.Id.ToString(),
                 Text = c.Name
+            });
+
+            updatedProduct.Suppliers = suppliers.Select(s => new SelectListItem
+            {
+                Value = s.Id.ToString(),
+                Text = s.Name
             });
 
             return View("Edit", updatedProduct);

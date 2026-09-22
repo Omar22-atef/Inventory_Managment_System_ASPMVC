@@ -28,6 +28,7 @@
                 <tr>
                     <th>Transaction ID</th>
                     <th>Product</th>
+                    <th>Supplier</th>
                     <th>Quantity</th>
                     <th>Type</th>
                     <th>Date</th>
@@ -41,6 +42,7 @@
                     <tr>
                         <td>@transaction.Id</td>
                         <td>@transaction.Product.Name</td>
+                        <td>@(transaction.Supplier?.Name ?? "N/A")</td>
                         <td>@transaction.Quantity</td>
                         <td>@transaction.Type</td>
                         <td>@transaction.Date.ToString("dd/MM/yyyy HH:mm")</td>

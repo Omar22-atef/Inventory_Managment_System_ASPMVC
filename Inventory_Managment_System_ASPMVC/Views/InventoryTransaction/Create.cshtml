@@ -1,7 +1,7 @@
 ﻿@model InventoryTransactionCreateViewModel
 
 @{
-    ViewData["Title"] = "CreateTransaction";
+    ViewData["Title"] = "Create Transaction";
 }
 
 <div class="container mt-4">
@@ -23,6 +23,21 @@
                   class="text-danger"></span>
         </div>
 
+
+        <div class="mb-3">
+            <label asp-for="SupplierId" class="form-label">Supplier</label>
+
+            <select asp-for="SupplierId"
+                    asp-items="Model.Suppliers"
+                    class="form-select">
+                <option value="">-- Select Supplier --</option>
+            </select>
+
+            <span asp-validation-for="SupplierId"
+                  class="text-danger"></span>
+        </div>
+
+
         <div class="mb-3">
             <label asp-for="Quantity" class="form-label">Quantity</label>
 
@@ -34,6 +49,7 @@
             <span asp-validation-for="Quantity"
                   class="text-danger"></span>
         </div>
+
 
         <div class="mb-3">
             <label asp-for="Type" class="form-label">Transaction Type</label>
@@ -47,6 +63,7 @@
             <span asp-validation-for="Type"
                   class="text-danger"></span>
         </div>
+
 
         <button type="submit" class="btn btn-primary">
             Create Transaction

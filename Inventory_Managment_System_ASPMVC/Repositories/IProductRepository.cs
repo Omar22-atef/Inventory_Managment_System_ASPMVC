@@ -10,5 +10,7 @@ namespace Inventory_Managment_System_ASPMVC.Repositories
         public bool ExistsSKU(string sku);
         public Product? GetById(int id);
         public bool ExistsBySKUId(string sku, int id);
+        void RemoveProductSuppliers(Product product);
+        void AddProductSupplier(ProductSuppliers productSupplier);
     }
 }

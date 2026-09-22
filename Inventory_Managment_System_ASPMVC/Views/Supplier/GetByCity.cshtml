@@ -1,14 +1,45 @@
-﻿@model Supplier
+﻿@model IEnumerable<Supplier>
+
 @{
-    ViewData["Title"] = "GetByCity";
+    ViewData["Title"] = "Suppliers By City";
 }
 
-<h1>GetByCity</h1>
+<div class="container mt-4">
 
-<div>
-    <h2>Supplier Details</h2>
-    <p><strong>Name:</strong> @Model.Name</p>
-    <p><strong>Address:</strong> @Model.Address</p>
-    <p><strong>City:</strong> @Model.City</p>
+    <h1>Suppliers in City</h1>
+
+    @if (!Model.Any())
+    {
+        <p>No suppliers found.</p>
+    }
+    else
+    {
+        <table class="table table-bordered">
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var supplier in Model)
+                {
+                    <tr>
+                        <td>@supplier.Name</td>
+                        <td>@supplier.Address</td>
+                        <td>@supplier.City</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Back to Suppliers
+    </a>
+
 </div>
-

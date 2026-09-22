@@ -17,8 +17,8 @@ namespace Inventory_Managment_System_ASPMVC.Models
         public string City { get; set; }
 
         public bool IsDeleted { get; set; }
-        public ICollection<InventoryTransaction> InventoryTransactions { get; set; }
+        public ICollection<InventoryTransaction>? InventoryTransactions { get; set; }
         
-        public ICollection<ProductSuppliers> ProductSuppliers { get; set; }
+        public ICollection<ProductSuppliers> ProductSuppliers { get; set; } = new List<ProductSuppliers>();
     }
 }

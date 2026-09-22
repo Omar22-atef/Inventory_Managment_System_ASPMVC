@@ -34,12 +34,22 @@ namespace Inventory_Managment_System_ASPMVC.Repositories
 
         public Product? GetById(int id)
         {
-            return _context.Products.FirstOrDefault(p => p.Id == id);
+            return _context.Products.Include(ps => ps.ProductSuppliers).FirstOrDefault(p => p.Id == id);
         }
 
         public bool ExistsBySKUId(string sku, int id)
         {
             return _context.Products.IgnoreQueryFilters().Any(p => p.Id != id && p.SKU == sku);
+        }
+
+        public void RemoveProductSuppliers(Product product)
+        {
+            _context.ProductSuppliers.RemoveRange(product.ProductSuppliers);
+        }
+
+        public void AddProductSupplier(ProductSuppliers productSupplier)
+        {
+            _context.ProductSuppliers.Add(productSupplier);
         }
     }
 }

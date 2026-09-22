@@ -28,6 +28,7 @@
                 <tr>
                     <th>Transaction ID</th>
                     <th>Product</th>
+                    <th>Supplier</th>
                     <th>Quantity</th>
                     <th>Type</th>
                     <th>Date</th>
@@ -45,6 +46,9 @@
                             @transaction.Product.Name
                         </td>
 
+                        <td>
+							@(transaction.Supplier?.Name ?? "N/A")
+						</td>
                         <td>
                             @transaction.Quantity
                         </td>

@@ -31,7 +31,7 @@ namespace Inventory_Managment_System_ASPMVC.Models
         public int CategoryId { get; set; }
         public Category category { get; set; }
         public ICollection<InventoryTransaction> InventoryTransactions { get; set; }
-        public ICollection<ProductSuppliers> ProductSuppliers { get; set; }
+        public ICollection<ProductSuppliers> ProductSuppliers { get; set; } = new List<ProductSuppliers>();
 
     }
 }
