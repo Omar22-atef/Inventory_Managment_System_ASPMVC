@@ -1,0 +1,434 @@
+﻿@model DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid">
+
+    <!-- ==================== Header ==================== -->
+    <div class="mb-4">
+        <h1 class="fw-bold">Dashboard</h1>
+        <p class="text-muted">
+            Overview of your inventory system
+        </p>
+    </div>
+
+
+    <!-- ==================== Row 1 - KPIs ==================== -->
+
+    <div class="row g-4">
+
+        <!-- Products -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Products</h6>
+                    <h2 class="fw-bold">@Model.TotalProducts</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Suppliers -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Suppliers</h6>
+                    <h2 class="fw-bold">@Model.TotalSuppliers</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Categories -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Categories</h6>
+                    <h2 class="fw-bold">@Model.TotalCategories</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Stock Value -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Stock Value</h6>
+                    <h2 class="fw-bold">
+                        @Model.TotalStockCost.ToString("N2")
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ==================== Row 2 - Analytics ==================== -->
+
+    <div class="row g-4 mt-1">
+
+        <!-- Transactions Over Time -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title mb-4">
+                        Transactions Over Time
+                    </h5>
+
+                    <!-- Chart will be added here -->
+
+                    <div style="height: 300px;">
+                        <canvas id="transactionsChart"></canvas>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Stock Status -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title mb-4">
+                        Stock Status
+                    </h5>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Normal Stock</span>
+                            <strong>@Model.NormalStockProducts</strong>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Low Stock</span>
+                            <strong>@Model.LowStockProductsCount</strong>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <span>Out of Stock</span>
+                            <strong>@Model.OutOfStockProducts</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ==================== Row 3 - Insights ==================== -->
+
+    <div class="row g-4 mt-1">
+
+        <!-- Top Moving Products -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title mb-4">
+                        Top Moving Products
+                    </h5>
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity Moved</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var product in Model.TopMoingProducts)
+                                {
+                                    <tr>
+                                        <td>@product.ProductName</td>
+                                        <td>@product.TotalQuantity</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Top Suppliers -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title mb-4">
+                        Top Suppliers
+                    </h5>
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Supplier</th>
+                                    <th>Supplied Quantity</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var supplier in Model.TopSuppliers)
+                                {
+                                    <tr>
+                                        <td>@supplier.SupplierName</td>
+                                        <td>@supplier.TotalQuantity</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ==================== Row 4 - Low Stock ==================== -->
+
+    <div class="row g-4 mt-1">
+
+        <div class="col-12">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="card-title mb-4">
+                        Low Stock Products
+                    </h5>
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Current Stock</th>
+                                    <th>Minimum Stock</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var product in Model.LowStockProducts)
+                                {
+                                    <tr>
+                                        <td>@product.ProductName</td>
+                                        <td>@product.CurrentStock</td>
+                                        <td>@product.MinimumStock</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==================== Row 5 - Recent Transactions ==================== -->
+    <div class="row g-4 mt-1">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="card-title mb-4">
+                        Recent Transactions
+                    </h5>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Type</th>
+                                    <th>Quantity</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var transaction in Model.RecentTransactions)
+                                {
+                                    <tr>
+                                        <td>@transaction.ProductName</td>
+
+                                        <td>@transaction.Type</td>
+
+                                        <td>@transaction.Quantity</td>
+
+                                        <td>
+                                            @transaction.Date.ToString("dd/MM/yyyy HH:mm")
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Row 6 - Products by Category ==================== -->
+    <div class="row g-4 mt-1">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="card-title mb-4">
+                        Products by Category
+                    </h5>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Products Count</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var category in Model.ProductsByCategory)
+                                {
+                                    <tr>
+                                        <td>@category.CategoryName</td>
+                                        <td>@category.ProductsCount</td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const transactionData = @Html.Raw(Json.Serialize(Model.TransactionTrends));
+
+        const labels = transactionData.map(x =>
+            new Date(x.date).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short'
+            })
+        );
+
+        const stockIn = transactionData.map(x => x.stockIn);
+        const stockOut = transactionData.map(x => x.stockOut);
+
+        const ctx = document.getElementById('transactionsChart');
+
+        new Chart(ctx, {
+            type: 'line',
+
+            data: {
+                labels: labels,
+
+                datasets: [
+                    {
+                        label: 'Stock In',
+                        data: stockIn,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Stock Out',
+                        data: stockOut,
+                        tension: 0.3
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Quantity'
+                        }
+                    },
+
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}
