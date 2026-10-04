@@ -1,10 +1,11 @@
 ﻿using Inventory_Managment_System_ASPMVC.Models;
 using Inventory_Managment_System_ASPMVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Inventory_Managment_System_ASPMVC.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -20,12 +21,16 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
+
         public IActionResult Create()
         {
             return View("Create");
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
+
         public IActionResult Create(Category newCategory)
         {
 
@@ -40,7 +45,9 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
             }
             return View("Create");
         }
+
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
         public IActionResult Edit(int id)
         {
             Category category = _categoryService.GetById(id);
@@ -49,6 +56,8 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
+
         public IActionResult Edit(Category updatedCategory)
         {
             if (ModelState.IsValid)
@@ -65,6 +74,8 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
+
         public IActionResult Delete(int id)
         {
             var category = _categoryService.GetById(id);
@@ -76,6 +87,8 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
+
         public IActionResult DeleteCategory(int id)
         {
             bool success = _categoryService.DeleteCategory(id);

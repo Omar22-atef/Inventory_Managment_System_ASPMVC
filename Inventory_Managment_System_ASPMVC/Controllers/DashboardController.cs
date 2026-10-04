@@ -1,10 +1,12 @@
 ﻿using Inventory_Managment_System_ASPMVC.DTOs;
 using Inventory_Managment_System_ASPMVC.Services;
 using Inventory_Managment_System_ASPMVC.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory_Managment_System_ASPMVC.Controllers
 {
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly IDashboardService _dashboardService;

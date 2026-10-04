@@ -4,9 +4,11 @@ using Inventory_Managment_System_ASPMVC.ViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Inventory_Managment_System_ASPMVC.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Inventory_Managment_System_ASPMVC.Controllers
 {
+    [Authorize]
     public class InventoryTransactionController : Controller
     {
         private readonly IInventoryTransactionService _inventoryTransactionService;
@@ -26,6 +28,7 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult Create()
         { 
             var products = _productService.GetAllProducts();
@@ -49,6 +52,7 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult Create(InventoryTransactionCreateViewModel newTransaction)
         {
             if (ModelState.IsValid)

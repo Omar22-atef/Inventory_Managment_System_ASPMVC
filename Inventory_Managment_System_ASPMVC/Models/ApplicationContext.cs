@@ -1,20 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventory_Managment_System_ASPMVC.Models
 {
-    public class ApplicationContext:DbContext
+    public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+        public ApplicationContext(
+            DbContextOptions<ApplicationContext> options)
             : base(options)
-        { }
-        public DbSet<Category> Categories { get; set; }
+        {
+        }
 
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<ProductSuppliers> ProductSuppliers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Category>()
                 .HasQueryFilter(c => !c.IsDeleted);
 
@@ -22,12 +28,10 @@ namespace Inventory_Managment_System_ASPMVC.Models
                 .HasQueryFilter(p => !p.IsDeleted);
 
             modelBuilder.Entity<ProductSuppliers>()
-                .HasKey(p => new { p.ProductId, p.SupplierId});
+                .HasKey(p => new { p.ProductId, p.SupplierId });
 
             modelBuilder.Entity<Supplier>()
                 .HasQueryFilter(s => !s.IsDeleted);
-            base.OnModelCreating(modelBuilder);
         }
-
     }
 }

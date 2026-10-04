@@ -1,11 +1,13 @@
 ﻿using Inventory_Managment_System_ASPMVC.Models;
 using Inventory_Managment_System_ASPMVC.Services;
 using Inventory_Managment_System_ASPMVC.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Inventory_Managment_System_ASPMVC.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -47,6 +49,7 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
         public IActionResult Create()
         {
             var categories = _categoryService.GetAllCategories();
@@ -69,6 +72,7 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
             return View("Create", product);
         }
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
         public IActionResult Create(ProductCreateViewModel newProduct)
         {
             if (ModelState.IsValid)
@@ -117,6 +121,8 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
+
         public IActionResult Edit(int id)
         {
             var product = _productService.GetById(id);
@@ -157,6 +163,8 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
+
         public IActionResult Edit(ProductCreateViewModel updatedProduct)
         {
             if (ModelState.IsValid)
@@ -203,6 +211,8 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
+
         public IActionResult Delete(int id)
         { 
             var product = _productService.GetById(id);
@@ -211,6 +221,8 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin, InventoryManager")]
+
         public IActionResult DeleteConfirmed(int id)
         {
             bool success = _productService.DeleteProduct(id);

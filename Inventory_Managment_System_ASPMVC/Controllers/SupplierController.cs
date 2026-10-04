@@ -1,9 +1,11 @@
 ﻿using Inventory_Managment_System_ASPMVC.Models;
 using Inventory_Managment_System_ASPMVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory_Managment_System_ASPMVC.Controllers
 {
+    [Authorize]
     public class SupplierController : Controller
     {
         private readonly ISupplierService _supplierService;
@@ -19,11 +21,14 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult Create()
         {
             return View("Create");
         }
+        
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult Create(Supplier newSupplier)
         {
             if (ModelState.IsValid)
@@ -37,14 +42,18 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
             }
             return View("Create", newSupplier);
         }
+       
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult Edit(int id)
         {
             var supplier = _supplierService.GetById(id);
             if (supplier == null) return NotFound();
             return View("Edit", supplier);
         }
+
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult Edit(Supplier updatedSupplier)
         {
             if (ModelState.IsValid)
@@ -58,14 +67,18 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
             }
             return View("Edit", updatedSupplier);
         }
+
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult Delete(int id)
         {
             var supplier = _supplierService.GetById(id);
             if (supplier == null) return NotFound();
             return View("Delete", supplier);
         }
+
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult DeleteConfirmed(int id)
         {
             var supplier = _supplierService.GetById(id);
@@ -83,12 +96,14 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
         [HttpGet]
         public IActionResult Search(string keyword)
         {
             var suppliers = _supplierService.Search(keyword);
             return View("Index", suppliers);
         }
+
         [HttpGet]
         public IActionResult GetByCity(string city)
         {
