@@ -1,5 +1,6 @@
 ﻿using Inventory_Managment_System_ASPMVC.Models;
 using Inventory_Managment_System_ASPMVC.Repositories;
+using Inventory_Managment_System_ASPMVC.ViewModel;
 
 namespace Inventory_Managment_System_ASPMVC.Services
 {
@@ -20,19 +21,24 @@ namespace Inventory_Managment_System_ASPMVC.Services
             return name.Trim().ToLower();
         }
 
-        public bool CreateCategory(Category newCategory)
+        public bool CreateCategory(CreateCategoryViewModel newCategory)
         {
             newCategory.Name = Normalize(newCategory.Name);
             if (!categoryRepository.ExistsByName(newCategory.Name))
-            { 
-                categoryRepository.Add(newCategory);
+            {
+                categoryRepository.Add(new Category
+                {
+                    Id = newCategory.Id,
+                    Name = newCategory.Name,
+                    Description = newCategory.Description
+                });
                 categoryRepository.Save();
                 return true;
             }
             return false;
         }
 
-        public bool UpdateCategory(Category updatedCategory)
+        public bool UpdateCategory(CreateCategoryViewModel updatedCategory)
         {
             updatedCategory.Name = Normalize(updatedCategory.Name);
             var existedCategory = categoryRepository.GetById(updatedCategory.Id);

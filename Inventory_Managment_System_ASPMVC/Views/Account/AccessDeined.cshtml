@@ -1,13 +1,23 @@
-﻿
 @{
-    ViewData["Title"] = "AccessDeined";
+    ViewData["Title"] = "Access Denied";
 }
 
-<h2>Access Denied</h2>
-
-<p>You do not have permission to access this page.</p>
-
-<a asp-controller="Home" asp-action="Index">
-    Back to Home
-</a>
-
+<div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="text-center" style="max-width: 460px;">
+        <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 text-danger" style="width: 96px; height: 96px; font-size: 2.5rem;">
+                <i class="bi bi-shield-lock-fill"></i>
+            </div>
+        </div>
+        <h2 class="fw-bold text-dark mb-2">Access Denied</h2>
+        <p class="text-muted mb-4">You do not have permission to view this page. Please contact your system administrator if you believe this is a mistake.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary px-4">
+                <i class="bi bi-house me-2"></i> Go to Home
+            </a>
+            <a asp-controller="Dashboard" asp-action="Index" class="btn btn-light border px-4">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            </a>
+        </div>
+    </div>
+</div>

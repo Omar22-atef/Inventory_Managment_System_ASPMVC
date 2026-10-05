@@ -1,5 +1,6 @@
 ﻿using Inventory_Managment_System_ASPMVC.Models;
 using Inventory_Managment_System_ASPMVC.Services;
+using Inventory_Managment_System_ASPMVC.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +32,7 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         [HttpPost]
         [Authorize(Roles = "SuperAdmin, InventoryManager")]
 
-        public IActionResult Create(Category newCategory)
+        public IActionResult Create(CreateCategoryViewModel newCategory)
         {
 
             if (ModelState.IsValid)
@@ -52,13 +53,19 @@ namespace Inventory_Managment_System_ASPMVC.Controllers
         {
             Category category = _categoryService.GetById(id);
             if (category == null) return NotFound();
-            return View("Edit", category);
+            var updatedCategory = new CreateCategoryViewModel
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description
+            };
+            return View("Edit", updatedCategory);
         }
 
         [HttpPost]
         [Authorize(Roles = "SuperAdmin, InventoryManager")]
 
-        public IActionResult Edit(Category updatedCategory)
+        public IActionResult Edit(CreateCategoryViewModel updatedCategory)
         {
             if (ModelState.IsValid)
             { 

@@ -1,29 +1,45 @@
-﻿@model Supplier
+@model Supplier
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Supplier";
 }
 
-<h1>Create</h1>
+<div class="mb-4">
+    <h2 class="fw-bold mb-1">Create Supplier</h2>
+    <p class="text-muted mb-0">Add a new vendor to your system</p>
+</div>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Address" class="control-label"></label>
-        <input asp-for="Address" class="form-control" />
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="City" class="control-label"></label>
-        <input asp-for="City" class="form-control" />
-        <span asp-validation-for="City" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
-		<a asp-action="Index" class="btn btn-secondary">Cancel</a>
-	</div>
+<div class="row">
+    <div class="col-xl-6 col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+                <form asp-action="Create" method="post">
+                    
+                    <div class="mb-4">
+                        <label asp-for="Name" class="form-label fw-bold"></label>
+                        <input asp-for="Name" class="form-control" placeholder="Company or Supplier Name" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label asp-for="Address" class="form-label fw-bold"></label>
+                        <input asp-for="Address" class="form-control" placeholder="Street address" />
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
 
-</form>
+                    <div class="mb-5">
+                        <label asp-for="City" class="form-label fw-bold"></label>
+                        <input asp-for="City" class="form-control" placeholder="City" />
+                        <span asp-validation-for="City" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check-lg me-1"></i> Create Supplier
+                        </button>
+                        <a asp-action="Index" class="btn btn-light px-4 border">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

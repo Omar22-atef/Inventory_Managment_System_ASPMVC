@@ -1,65 +1,103 @@
-﻿@model IEnumerable<UserListViewModel>
+@model IEnumerable<UserListViewModel>
 
 @{
     ViewData["Title"] = "Users";
 }
 
-<h1>Users</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">User Management</h2>
+        <p class="text-muted mb-0">Manage system access and roles</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-person-plus me-1"></i> Create User
+    </a>
+</div>
 
-<a asp-action="Create" class="btn btn-primary mb-3">
-    Create User
-</a>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.FullName</td>
-                <td>@user.Email</td>
-                <td>@string.Join(", ", user.Roles)</td>
-                <td>
-                    <a asp-action="Edit"
-                       asp-route-id="@user.Id"
-                       class="btn btn-sm btn-primary">
-                        Edit
-                    </a>
-
-                    @if (user.IsDisabled)
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Full Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
                     {
-                        <form asp-action="Enable"
-                              asp-route-id="@user.Id"
-                              method="post"
-                              class="d-inline">
+                        <tr class="@(user.IsDisabled ? "bg-light bg-opacity-50 text-muted" : "")">
+                            <td class="ps-4 fw-medium @(user.IsDisabled ? "text-muted" : "text-dark")">
+                                <div class="d-flex align-items-center">
+                                    <div class="kpi-icon @(user.IsDisabled ? "bg-secondary" : "bg-primary") bg-opacity-10 @(user.IsDisabled ? "text-secondary" : "text-primary") me-3" style="width: 36px; height: 36px; font-size: 1.1rem; border-radius: 50%;">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                    @user.FullName
+                                </div>
+                            </td>
+                            <td>@user.Email</td>
+                            <td>
+                                @foreach (var role in user.Roles)
+                                {
+                                    <span class="badge @(role == "Admin" ? "bg-dark" : "bg-info text-dark") me-1">@role</span>
+                                }
+                                @if (!user.Roles.Any())
+                                {
+                                    <span class="text-muted small">No Role</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (user.IsDisabled)
+                                {
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-2 py-1">
+                                        <i class="bi bi-lock-fill me-1"></i> Disabled
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">
+                                        <i class="bi bi-check-circle-fill me-1"></i> Active
+                                    </span>
+                                }
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-outline-primary" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
 
-                            <button type="submit" class="btn btn-sm btn-success">
-                                Enable
-                            </button>
-                        </form>
+                                    @if (user.IsDisabled)
+                                    {
+                                        <form asp-action="Enable" asp-route-id="@user.Id" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-success" title="Enable Account">
+                                                <i class="bi bi-unlock"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="Disable" asp-route-id="@user.Id" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Disable Account">
+                                                <i class="bi bi-lock"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
                     }
-                    else
+                    @if (!Model.Any())
                     {
-                        <form asp-action="Disable"
-                              asp-route-id="@user.Id"
-                              method="post"
-                              class="d-inline">
-
-                            <button type="submit" class="btn btn-sm btn-danger">
-                                Disable
-                            </button>
-                        </form>
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">No users found.</td>
+                        </tr>
                     }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

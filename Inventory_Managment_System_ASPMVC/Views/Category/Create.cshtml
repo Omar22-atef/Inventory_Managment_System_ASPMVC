@@ -1,19 +1,37 @@
-﻿@model Category
+@model CreateCategoryViewModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Category";
 }
 
-<h1>Create A New Category</h1>
+<div class="mb-4">
+    <h2 class="fw-bold mb-1">Create Category</h2>
+    <p class="text-muted mb-0">Add a new category to organize your products</p>
+</div>
 
-<form action="/Category/Create" method="post">
-    <div class="form-group">
-        <label class="Name" id="Name">Name:</label>
-        <input class="form-control" type="text" name="Name" />
+<div class="row">
+    <div class="col-xl-6 col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+                <form action="/Category/Create" method="post">
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold" for="Name">Name</label>
+                        <input class="form-control" type="text" id="Name" name="Name" placeholder="e.g. Electronics, Clothing..." />
+                    </div>
+                    
+                    <div class="mb-5">
+                        <label class="form-label fw-bold" for="Description">Description</label>
+                        <textarea class="form-control" id="Description" name="Description" rows="3" placeholder="Brief description of the category..."></textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check-lg me-1"></i> Create Category
+                        </button>
+                        <a href="/Category" class="btn btn-light px-4 border">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label class="Description" id="Description">Description:</label>
-        <input class="form-control" type="text" name="Description" />
-    </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-</form>
-
+</div>

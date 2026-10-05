@@ -1,104 +1,98 @@
-﻿@model IEnumerable<InventoryTransaction>
+@model IEnumerable<Inventory_Managment_System_ASPMVC.Models.InventoryTransaction>
 
 @{
     ViewData["Title"] = "Transactions By Date";
 }
 
-<div class="container mt-4">
-
-    <h1>Transactions By Date</h1>
-
-    <form asp-action="GetByDate" method="get" class="row g-3 mb-4">
-
-        <div class="col-md-4">
-            <label for="from" class="form-label">From Date</label>
-            <input type="date"
-                   id="from"
-                   name="from"
-                   class="form-control"
-                   required />
-        </div>
-
-        <div class="col-md-4">
-            <label for="to" class="form-label">To Date</label>
-            <input type="date"
-                   id="to"
-                   name="to"
-                   class="form-control"
-                   required />
-        </div>
-
-        <div class="col-md-4 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary">
-                Search
-            </button>
-        </div>
-
-    </form>
-
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info">
-            No transactions found for this date range.
-        </div>
-    }
-    else
-    {
-        <table class="table table-bordered table-hover">
-
-            <thead>
-                <tr>
-                    <th>Transaction ID</th>
-                    <th>Product</th>
-                    <th>Supplier</th>
-                    <th>Quantity</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var transaction in Model)
-                {
-                    <tr>
-                        <td>@transaction.Id</td>
-
-                        <td>
-                            @transaction.Product.Name
-                        </td>
-
-                        <td>
-							@(transaction.Supplier?.Name ?? "N/A")
-						</td>
-                        <td>
-                            @transaction.Quantity
-                        </td>
-
-                        <td>
-                            @transaction.Type
-                        </td>
-
-                        <td>
-                            @transaction.Date.ToString("dd/MM/yyyy HH:mm")
-                        </td>
-
-                        <td>
-                            <a asp-action="GetById"
-                               asp-route-id="@transaction.Id"
-                               class="btn btn-sm btn-info">
-                                Details
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-
-        </table>
-    }
-
-    <a asp-action="Index" class="btn btn-secondary">
-        Back to All Transactions
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Transactions by Date Range</h2>
+        <p class="text-muted mb-0">Filter transaction history by a specific date range</p>
+    </div>
+    <a asp-action="Index" class="btn btn-light border">
+        <i class="bi bi-arrow-left me-1"></i> All Transactions
     </a>
-
 </div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <form asp-action="GetByDate" method="get">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label for="from" class="form-label fw-bold">From Date</label>
+                    <input type="date" id="from" name="from" class="form-control" required />
+                </div>
+                <div class="col-md-4">
+                    <label for="to" class="form-label fw-bold">To Date</label>
+                    <input type="date" id="to" name="to" class="form-control" required />
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search me-1"></i> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model != null && !Model.Any())
+{
+    <div class="alert alert-info d-flex align-items-center" role="alert">
+        <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+        <div>No transactions found for this date range.</div>
+    </div>
+}
+else if (Model != null && Model.Any())
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">ID</th>
+                            <th>Product</th>
+                            <th>Supplier</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Type</th>
+                            <th>Date</th>
+                            <th class="text-end pe-4">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var transaction in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 text-muted small">#@transaction.Id</td>
+                                <td class="fw-medium">@transaction.Product.Name</td>
+                                <td class="text-muted">@(transaction.Supplier?.Name ?? "N/A")</td>
+                                <td class="text-center fw-bold">@transaction.Quantity</td>
+                                <td class="text-center">
+                                    @if (transaction.Type.ToString() == "In")
+                                    {
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">
+                                            <i class="bi bi-arrow-down-circle me-1"></i> Stock In
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-1">
+                                            <i class="bi bi-arrow-up-circle me-1"></i> Stock Out
+                                        </span>
+                                    }
+                                </td>
+                                <td class="text-muted small">@transaction.Date.ToString("dd MMM yyyy HH:mm")</td>
+                                <td class="text-end pe-4">
+                                    <a asp-action="GetById" asp-route-id="@transaction.Id" class="btn btn-sm btn-outline-secondary" title="View Details">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

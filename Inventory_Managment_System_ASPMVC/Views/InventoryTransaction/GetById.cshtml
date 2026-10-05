@@ -1,67 +1,74 @@
-﻿@model InventoryTransaction
+@model Inventory_Managment_System_ASPMVC.Models.InventoryTransaction
 
 @{
     ViewData["Title"] = "Transaction Details";
 }
 
-<div class="container mt-4">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Transaction Details</h2>
+        <p class="text-muted mb-0">Full record for transaction #@Model.Id</p>
+    </div>
+    <a asp-action="Index" class="btn btn-light border">
+        <i class="bi bi-arrow-left me-1"></i> Back to Transactions
+    </a>
+</div>
 
-    <h1>Transaction Details</h1>
+<div class="row">
+    <div class="col-xl-7 col-lg-9">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
 
-    <div class="card mt-4">
-        <div class="card-body">
+                <div class="d-flex align-items-center mb-4 pb-4 border-bottom">
+                    <div class="kpi-icon bg-primary bg-opacity-10 text-primary me-4" style="width: 64px; height: 64px; font-size: 2rem;">
+                        <i class="bi bi-arrow-left-right"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">@Model.Product.Name</h5>
+                        <div>
+                            @if (Model.Type.ToString() == "In")
+                            {
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2">
+                                    <i class="bi bi-arrow-down-circle me-1"></i> Stock In
+                                </span>
+                            }
+                            else if (Model.Type.ToString() == "Out")
+                            {
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2">
+                                    <i class="bi bi-arrow-up-circle me-1"></i> Stock Out
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@Model.Type</span>
+                            }
+                        </div>
+                    </div>
+                </div>
 
-            <dl class="row">
+                <dl class="row g-3">
+                    <dt class="col-sm-4 text-muted fw-semibold">Transaction ID</dt>
+                    <dd class="col-sm-8 fw-medium">#@Model.Id</dd>
 
-                <dt class="col-sm-3">
-                    Transaction ID
-                </dt>
-                <dd class="col-sm-9">
-                    @Model.Id
-                </dd>
+                    <dt class="col-sm-4 text-muted fw-semibold">Product</dt>
+                    <dd class="col-sm-8 fw-medium">@Model.Product.Name</dd>
 
-                <dt class="col-sm-3">
-                    Product
-                </dt>
-                <dt class="col-sm-3">
-                    Supplier
-                </dt>
-                <dd class="col-sm-9">
-                    @(Model.Supplier?.Name ?? "N/A")
-                </dd>
+                    <dt class="col-sm-4 text-muted fw-semibold">Supplier</dt>
+                    <dd class="col-sm-8">@(Model.Supplier?.Name ?? "N/A")</dd>
 
-                <dd class="col-sm-9">
-                    @Model.Product.Name
-                </dd>
+                    <dt class="col-sm-4 text-muted fw-semibold">Quantity</dt>
+                    <dd class="col-sm-8 fw-bold fs-5">@Model.Quantity <small class="text-muted fw-normal fs-6">units</small></dd>
 
-                <dt class="col-sm-3">
-                    Quantity
-                </dt>
-                <dd class="col-sm-9">
-                    @Model.Quantity
-                </dd>
+                    <dt class="col-sm-4 text-muted fw-semibold">Transaction Type</dt>
+                    <dd class="col-sm-8">@Model.Type</dd>
 
-                <dt class="col-sm-3">
-                    Transaction Type
-                </dt>
-                <dd class="col-sm-9">
-                    @Model.Type
-                </dd>
-
-                <dt class="col-sm-3">
-                    Date
-                </dt>
-                <dd class="col-sm-9">
-                    @Model.Date.ToString("dd/MM/yyyy HH:mm")
-                </dd>
-
-            </dl>
-
-            <a asp-action="Index" class="btn btn-secondary">
-                Back to Transactions
-            </a>
-
+                    <dt class="col-sm-4 text-muted fw-semibold">Date & Time</dt>
+                    <dd class="col-sm-8">
+                        @Model.Date.ToString("dd MMMM yyyy")
+                        <span class="text-muted ms-2">@Model.Date.ToString("HH:mm")</span>
+                    </dd>
+                </dl>
+            </div>
         </div>
     </div>
-
 </div>

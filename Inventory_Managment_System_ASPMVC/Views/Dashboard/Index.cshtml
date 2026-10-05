@@ -1,367 +1,350 @@
-﻿@model DashboardViewModel
+@model DashboardViewModel
 
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="container-fluid">
+<div class="mb-4 d-flex justify-content-between align-items-end">
+    <div>
+        <h2 class="fw-bold mb-1">Dashboard Overview</h2>
+        <p class="text-muted mb-0">Track and manage your inventory system</p>
+    </div>
+</div>
 
-    <!-- ==================== Header ==================== -->
-    <div class="mb-4">
-        <h1 class="fw-bold">Dashboard</h1>
-        <p class="text-muted">
-            Overview of your inventory system
-        </p>
+<!-- ==================== Row 1 - KPIs ==================== -->
+<div class="row g-4 mb-4">
+    <!-- Products -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="kpi-card">
+                    <div class="kpi-icon bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-box"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <p class="text-uppercase fw-bold mb-1">Products</p>
+                        <h3 class="text-dark">@Model.TotalProducts</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-
-    <!-- ==================== Row 1 - KPIs ==================== -->
-
-    <div class="row g-4">
-
-        <!-- Products -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Products</h6>
-                    <h2 class="fw-bold">@Model.TotalProducts</h2>
+    <!-- Suppliers -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="kpi-card">
+                    <div class="kpi-icon bg-success bg-opacity-10 text-success">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <p class="text-uppercase fw-bold mb-1">Suppliers</p>
+                        <h3 class="text-dark">@Model.TotalSuppliers</h3>
+                    </div>
                 </div>
             </div>
         </div>
-
-
-        <!-- Suppliers -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Suppliers</h6>
-                    <h2 class="fw-bold">@Model.TotalSuppliers</h2>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Categories -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Categories</h6>
-                    <h2 class="fw-bold">@Model.TotalCategories</h2>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Stock Value -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Stock Value</h6>
-                    <h2 class="fw-bold">
-                        @Model.TotalStockCost.ToString("N2")
-                    </h2>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-
-    <!-- ==================== Row 2 - Analytics ==================== -->
-
-    <div class="row g-4 mt-1">
-
-        <!-- Transactions Over Time -->
-        <div class="col-lg-8">
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h5 class="card-title mb-4">
-                        Transactions Over Time
-                    </h5>
-
-                    <!-- Chart will be added here -->
-
-                    <div style="height: 300px;">
-                        <canvas id="transactionsChart"></canvas>
+    <!-- Categories -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="kpi-card">
+                    <div class="kpi-icon bg-info bg-opacity-10 text-info">
+                        <i class="bi bi-tags"></i>
                     </div>
-
+                    <div class="kpi-details">
+                        <p class="text-uppercase fw-bold mb-1">Categories</p>
+                        <h3 class="text-dark">@Model.TotalCategories</h3>
+                    </div>
                 </div>
-
             </div>
         </div>
-
-
-        <!-- Stock Status -->
-        <div class="col-lg-4">
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h5 class="card-title mb-4">
-                        Stock Status
-                    </h5>
-
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between">
-                            <span>Normal Stock</span>
-                            <strong>@Model.NormalStockProducts</strong>
-                        </div>
-                    </div>
-
-
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between">
-                            <span>Low Stock</span>
-                            <strong>@Model.LowStockProductsCount</strong>
-                        </div>
-                    </div>
-
-
-                    <div>
-                        <div class="d-flex justify-content-between">
-                            <span>Out of Stock</span>
-                            <strong>@Model.OutOfStockProducts</strong>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
     </div>
 
+    <!-- Stock Value -->
+    <div class="col-md-6 col-xl-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="kpi-card">
+                    <div class="kpi-icon bg-warning bg-opacity-10 text-warning">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <p class="text-uppercase fw-bold mb-1">Stock Value</p>
+                        <h3 class="text-dark">@Model.TotalStockCost.ToString("C2")</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- ==================== Row 3 - Insights ==================== -->
+<!-- ==================== Row 2 - Analytics ==================== -->
+<div class="row g-4 mb-4">
+    <!-- Transactions Over Time -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-0 pt-4 pb-0">
+                <h5 class="fw-bold mb-0">Transactions Over Time</h5>
+            </div>
+            <div class="card-body">
+                <div style="height: 300px;">
+                    <canvas id="transactionsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="row g-4 mt-1">
+    <!-- Stock Status -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-0 pt-4 pb-0">
+                <h5 class="fw-bold mb-0">Stock Status</h5>
+            </div>
+            <div class="card-body d-flex flex-column justify-content-center">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded-3 border-start border-success border-4">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success fs-4 me-3"></i>
+                        <span class="fw-bold text-dark fs-5">Normal Stock</span>
+                    </div>
+                    <span class="badge bg-success fs-6 rounded-pill px-3">@Model.NormalStockProducts</span>
+                </div>
 
-        <!-- Top Moving Products -->
-        <div class="col-lg-6">
-            <div class="card shadow-sm h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded-3 border-start border-warning border-4">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill text-warning fs-4 me-3"></i>
+                        <span class="fw-bold text-dark fs-5">Low Stock</span>
+                    </div>
+                    <span class="badge bg-warning fs-6 rounded-pill px-3 text-dark">@Model.LowStockProductsCount</span>
+                </div>
 
-                <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded-3 border-start border-danger border-4">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-x-octagon-fill text-danger fs-4 me-3"></i>
+                        <span class="fw-bold text-dark fs-5">Out of Stock</span>
+                    </div>
+                    <span class="badge bg-danger fs-6 rounded-pill px-3">@Model.OutOfStockProducts</span>
+                </div>
 
-                    <h5 class="card-title mb-4">
-                        Top Moving Products
-                    </h5>
+            </div>
+        </div>
+    </div>
+</div>
 
-                    <div class="table-responsive">
-
-                        <table class="table align-middle">
-
-                            <thead>
+<!-- ==================== Row 3 - Insights ==================== -->
+<div class="row g-4 mb-4">
+    <!-- Top Moving Products -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-bottom pt-3 pb-3">
+                <h5 class="fw-bold mb-0"><i class="bi bi-graph-up text-primary me-2"></i>Top Moving Products</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Product Name</th>
+                                <th class="text-end pe-4">Quantity Moved</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.TopMoingProducts)
+                            {
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Quantity Moved</th>
+                                    <td class="ps-4 fw-medium text-dark">@product.ProductName</td>
+                                    <td class="text-end pe-4">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 rounded-pill">@product.TotalQuantity</span>
+                                    </td>
                                 </tr>
-                            </thead>
-
-                            <tbody>
-
-                                @foreach (var product in Model.TopMoingProducts)
-                                {
-                                    <tr>
-                                        <td>@product.ProductName</td>
-                                        <td>@product.TotalQuantity</td>
-                                    </tr>
-                                }
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-
-        <!-- Top Suppliers -->
-        <div class="col-lg-6">
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h5 class="card-title mb-4">
-                        Top Suppliers
-                    </h5>
-
-                    <div class="table-responsive">
-
-                        <table class="table align-middle">
-
-                            <thead>
+                            }
+                            @if (!Model.TopMoingProducts.Any())
+                            {
                                 <tr>
-                                    <th>Supplier</th>
-                                    <th>Supplied Quantity</th>
+                                    <td colspan="2" class="text-center text-muted py-4">No data available</td>
                                 </tr>
-                            </thead>
-
-                            <tbody>
-
-                                @foreach (var supplier in Model.TopSuppliers)
-                                {
-                                    <tr>
-                                        <td>@supplier.SupplierName</td>
-                                        <td>@supplier.TotalQuantity</td>
-                                    </tr>
-                                }
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-
-    <!-- ==================== Row 4 - Low Stock ==================== -->
-
-    <div class="row g-4 mt-1">
-
-        <div class="col-12">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body">
-
-                    <h5 class="card-title mb-4">
-                        Low Stock Products
-                    </h5>
-
-                    <div class="table-responsive">
-
-                        <table class="table align-middle">
-
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Current Stock</th>
-                                    <th>Minimum Stock</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                                @foreach (var product in Model.LowStockProducts)
-                                {
-                                    <tr>
-                                        <td>@product.ProductName</td>
-                                        <td>@product.CurrentStock</td>
-                                        <td>@product.MinimumStock</td>
-                                    </tr>
-                                }
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ==================== Row 5 - Recent Transactions ==================== -->
-    <div class="row g-4 mt-1">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-body">
-
-                    <h5 class="card-title mb-4">
-                        Recent Transactions
-                    </h5>
-
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Type</th>
-                                    <th>Quantity</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @foreach (var transaction in Model.RecentTransactions)
-                                {
-                                    <tr>
-                                        <td>@transaction.ProductName</td>
-
-                                        <td>@transaction.Type</td>
-
-                                        <td>@transaction.Quantity</td>
-
-                                        <td>
-                                            @transaction.Date.ToString("dd/MM/yyyy HH:mm")
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-
-                        </table>
-                    </div>
-
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ==================== Row 6 - Products by Category ==================== -->
-    <div class="row g-4 mt-1">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-body">
-
-                    <h5 class="card-title mb-4">
-                        Products by Category
-                    </h5>
-
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-
-                            <thead>
+    <!-- Top Suppliers -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-bottom pt-3 pb-3">
+                <h5 class="fw-bold mb-0"><i class="bi bi-award text-success me-2"></i>Top Suppliers</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Supplier Name</th>
+                                <th class="text-end pe-4">Supplied Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var supplier in Model.TopSuppliers)
+                            {
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Products Count</th>
+                                    <td class="ps-4 fw-medium text-dark">@supplier.SupplierName</td>
+                                    <td class="text-end pe-4">
+                                        <span class="badge bg-success bg-opacity-10 text-success px-3 rounded-pill">@supplier.TotalQuantity</span>
+                                    </td>
                                 </tr>
-                            </thead>
+                            }
+                            @if (!Model.TopSuppliers.Any())
+                            {
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted py-4">No data available</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            <tbody>
-                                @foreach (var category in Model.ProductsByCategory)
-                                {
-                                    <tr>
-                                        <td>@category.CategoryName</td>
-                                        <td>@category.ProductsCount</td>
-                                    </tr>
-                                }
-                            </tbody>
-
-                        </table>
-                    </div>
-
+<!-- ==================== Row 4 - Low Stock & Recent ==================== -->
+<div class="row g-4 mb-4">
+    <!-- Low Stock Products -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-bottom pt-3 pb-3">
+                <h5 class="fw-bold mb-0 text-danger"><i class="bi bi-exclamation-triangle text-danger me-2"></i>Low Stock Alerts</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Product Name</th>
+                                <th class="text-center">Current</th>
+                                <th class="text-center pe-4">Minimum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.LowStockProducts)
+                            {
+                                <tr>
+                                    <td class="ps-4 fw-medium text-dark">@product.ProductName</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-danger">@product.CurrentStock</span>
+                                    </td>
+                                    <td class="text-center pe-4 text-muted">@product.MinimumStock</td>
+                                </tr>
+                            }
+                            @if (!Model.LowStockProducts.Any())
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted py-4">All stock levels are normal.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Products by Category -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-bottom pt-3 pb-3">
+                <h5 class="fw-bold mb-0"><i class="bi bi-diagram-3 text-info me-2"></i>Products by Category</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Category</th>
+                                <th class="text-end pe-4">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in Model.ProductsByCategory)
+                            {
+                                <tr>
+                                    <td class="ps-4 fw-medium text-dark">@category.CategoryName</td>
+                                    <td class="text-end pe-4">
+                                        <span class="badge bg-secondary px-3 rounded-pill">@category.ProductsCount</span>
+                                    </td>
+                                </tr>
+                            }
+                            @if (!Model.ProductsByCategory.Any())
+                            {
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted py-4">No categories found.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== Row 5 - Recent Transactions ==================== -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom pt-3 pb-3 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0"><i class="bi bi-clock-history text-secondary me-2"></i>Recent Transactions</h5>
+                <a asp-controller="InventoryTransaction" asp-action="Index" class="btn btn-sm btn-outline-secondary">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Date</th>
+                                <th>Product</th>
+                                <th>Type</th>
+                                <th class="text-end pe-4">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var transaction in Model.RecentTransactions)
+                            {
+                                <tr>
+                                    <td class="ps-4 text-muted">@transaction.Date.ToString("MMM dd, yyyy HH:mm")</td>
+                                    <td class="fw-medium text-dark">@transaction.ProductName</td>
+                                    <td>
+                                        @if(transaction.Type.ToString().ToLower().Contains("in"))
+                                        {
+                                            <span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-arrow-down-left me-1"></i> @transaction.Type</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-primary bg-opacity-10 text-primary"><i class="bi bi-arrow-up-right me-1"></i> @transaction.Type</span>
+                                        }
+                                    </td>
+                                    <td class="text-end pe-4 fw-bold">@transaction.Quantity</td>
+                                </tr>
+                            }
+                            @if (!Model.RecentTransactions.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-4">No recent transactions.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -383,50 +366,59 @@
         const ctx = document.getElementById('transactionsChart');
 
         new Chart(ctx, {
-            type: 'line',
-
+            type: 'bar',
             data: {
                 labels: labels,
-
                 datasets: [
                     {
                         label: 'Stock In',
                         data: stockIn,
-                        tension: 0.3
+                        backgroundColor: 'rgba(22, 163, 74, 0.8)', // Success green
+                        borderRadius: 4
                     },
                     {
                         label: 'Stock Out',
                         data: stockOut,
-                        tension: 0.3
+                        backgroundColor: 'rgba(37, 99, 235, 0.8)', // Primary blue
+                        borderRadius: 4
                     }
                 ]
             },
-
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-
                 plugins: {
                     legend: {
-                        position: 'top'
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
                     }
                 },
-
                 scales: {
                     y: {
                         beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Quantity'
+                        grid: {
+                            color: '#E5E7EB',
+                            drawBorder: false
                         }
                     },
-
                     x: {
-                        title: {
-                            display: true,
-                            text: 'Date'
+                        grid: {
+                            display: false,
+                            drawBorder: false
                         }
                     }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
                 }
             }
         });
